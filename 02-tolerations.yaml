@@ -25,9 +25,9 @@ spec:
       containers:
       - name: nginx
         image: nginx
-      tolerations:
-      - key: "project"
-        operator: "Equal"
-        value: "safety"
-        effect: "NoSchedule"
-        tolerationSeconds: 3600
+      # tolerations:
+      # - key: "project"
+      #   operator: "Equal"
+      #   value: "safety"
+      #   effect: "NoSchedule"
+      #   tolerationSeconds: 3600
