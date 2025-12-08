@@ -5,20 +5,20 @@ metadata:
 # these are deployment labels
   labels:
     purpose: headless-svc-demo
-    project: safety
+    project: roboshop
 spec:
   replicas: 1
   selector:
     # these labels are used to select pods
     matchLabels:
       purpose: headless-svc-demo
-      project: safety
+      project: roboshop
     # pod definition
   template: 
     metadata:
       labels:
         purpose: headless-svc-demo
-        project: safety
+        project: roboshop
     spec:
       containers:
       - name: nginx
