@@ -7,6 +7,8 @@ metadata:
     purpose: tolerations-demo
     project: roboshop
 spec:
+  nodeSelector: 
+    kubernetes.io/hostname: ip-192-168-38-43.ec2.internal
   replicas: 1
   selector:
     # these labels are used to select pods
@@ -23,3 +25,9 @@ spec:
       containers:
       - name: nginx
         image: nginx
+      tolerations:
+      - key: "project"
+        operator: "Equal"
+        value: "safety"
+        effect: "NoSchedule"
+        tolerationSeconds: 3600
