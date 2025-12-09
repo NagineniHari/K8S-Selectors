@@ -18,8 +18,8 @@ metadata:
 spec: 
   affinity:
     podAffinity:
+     ## Pod level labels
       requiredDuringSchedulingIgnoredDuringExecution:
-      ## Pod level labels
       - labelSelector:
           matchExpressions:
           - key: app
