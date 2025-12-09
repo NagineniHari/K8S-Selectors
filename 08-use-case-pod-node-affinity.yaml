@@ -42,7 +42,7 @@ spec:
   template:
     metadata:
       labels:
-        app: web-store
+        app: redis-cache
     spec:
       affinity:
         podAntiAffinity:
@@ -52,7 +52,7 @@ spec:
               - key: app
                 operator: In
                 values:
-                - web-store
+                - redis-cache
             topologyKey: "kubernetes.io/hostname"
         podAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -61,7 +61,7 @@ spec:
               - key: app
                 operator: In
                 values:
-                - store
+                - web-store
             topologyKey: "kubernetes.io/hostname"
       containers:
       - name: web-app
