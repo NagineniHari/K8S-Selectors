@@ -27,6 +27,8 @@ spec:
             operator: In
             values:
             - pod-1
+        topologyKey: topology.kubernetes.io/zone # Scope the rule to a single node
+
   containers:
   - name: nginx
     image: nginx
