@@ -1,0 +1,46 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+spec: 
+  affinity:
+    nodeAffinity:
+      ## Hard Rule( and Condition)
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: topology.kubernetes.io/zone
+            operator: In
+            values:
+            - us-east-1c 
+          # - key: disktype
+          #   operator: In
+          #   values:
+          #   - ssd
+
+      ## Soft Rule (or Condition)
+      preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 100
+        preference:
+          matchExpressions:
+          - key: project
+            operator: In
+            values:
+            - safety
+     
+      - weight: 50
+        preference:
+          matchExpressions:
+          - key: project
+            operator: In
+            values:
+            - amazon
+
+  containers:
+  - name: nginx
+    image: nginx
+    imagePullPolicy: Always
+
+
+  
+
