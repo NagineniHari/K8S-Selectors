@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis-cache
+spec:
+  selector:
+    matchLabels:
+      app: redis-cache
+  replicas: 3 # Assuming you want 3 instances
+  ##Pod defination
+  template:
+    metadata:
+      labels:
+        app: redis-cache # Label to match against
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          ##Pod Labels
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - redis-cache
+            topologyKey: "kubernetes.io/hostname" # Ensures separation across nodes
+      containers:
+      - name: redis-server
+        image: redis:latest
+        
