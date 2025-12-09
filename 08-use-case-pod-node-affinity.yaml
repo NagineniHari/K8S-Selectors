@@ -37,7 +37,7 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: web-store
+      app: redis-cache
   replicas: 3
   template:
     metadata:
@@ -61,7 +61,7 @@ spec:
               - key: app
                 operator: In
                 values:
-                - web-store
+                - redis-cache
             topologyKey: "kubernetes.io/hostname"
       containers:
       - name: web-app
