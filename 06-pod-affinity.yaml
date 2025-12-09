@@ -9,12 +9,13 @@ spec:
   - name: nginx
     image: nginx
     imagePullPolicy: Always
-
 ---
 apiVersion: v1
 kind: Pod
 metadata:
   name: pod-2
+  labels:
+   app: pod-2
 spec: 
   affinity:
     podAffinity:
