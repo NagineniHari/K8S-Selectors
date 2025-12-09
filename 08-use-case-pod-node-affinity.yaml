@@ -3,42 +3,10 @@ kind: Deployment
 metadata:
   name: redis-cache
 spec:
-  selector:
-    matchLabels:
-      app: redis-cache
-  replicas: 3 # Assuming you want 3 instances
-  ##Pod defination
-  template:
-    metadata:
-      labels:
-        app: redis-cache # Label to match against
-    spec:
-      affinity:
-        podAntiAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-          ##Pod Labels
-          - labelSelector:
-              matchExpressions:
-              - key: app
-                operator: In
-                values:
-                - redis-cache
-            topologyKey: "kubernetes.io/hostname" # Ensures separation across nodes
-      containers:
-      - name: redis-server
-        image: redis:latest
-
----
-
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: web-server
-spec:
-  selector:
-    matchLabels:
-      app: redis-cache
   replicas: 3
+  selector:
+    matchLabels:
+      app: redis-cache
   template:
     metadata:
       labels:
@@ -54,6 +22,38 @@ spec:
                 values:
                 - redis-cache
             topologyKey: "kubernetes.io/hostname"
+      containers:
+      - name: redis-server
+        image: redis:latest
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-server
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: web-server
+  template:
+    metadata:
+      labels:
+        app: web-server
+    spec:
+      affinity:
+        # Avoid scheduling multiple web-server pods on same node
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - web-server
+            topologyKey: "kubernetes.io/hostname"
+
+        # Prefer placing web-server near redis-cache
         podAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
           - labelSelector:
@@ -63,7 +63,7 @@ spec:
                 values:
                 - redis-cache
             topologyKey: "kubernetes.io/hostname"
+
       containers:
       - name: web-app
         image: nginx:1.16-alpine
-        
