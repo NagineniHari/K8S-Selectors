@@ -4,21 +4,18 @@ metadata:
   name: nginx
 # these are deployment labels
   labels:
-    purpose: headless-svc-demo
-    project: roboshop
+    purpose: taint-demo   
 spec:
   replicas: 1
   selector:
     # these labels are used to select pods
     matchLabels:
-      purpose: headless-svc-demo
-      project: roboshop
+      purpose: taint-demo
     # pod definition
   template: 
     metadata:
       labels:
-        purpose: headless-svc-demo
-        project: roboshop
+        purpose: taint-demo   
     spec:
       containers:
       - name: nginx
